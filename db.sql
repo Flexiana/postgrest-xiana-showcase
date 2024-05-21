@@ -62,14 +62,16 @@ BEFORE UPDATE ON invoices
 FOR EACH ROW
 EXECUTE FUNCTION check_user_permission();
 
-ALTER TABLE users ADD COLUMN role VARCHAR(10) CHECK (role IN ('user', 'admin')) NOT NULL;
+
 
 -- Create Users
 INSERT INTO users (id, username, password, salt, role, active, created_at) VALUES 
-(uuid_generate_v4(), 'user1', 'hashed_password1', 'salt1', 'user', TRUE, now()),
-(uuid_generate_v4(), 'user2', 'hashed_password2', 'salt2', 'user', TRUE, now()),
-(uuid_generate_v4(), 'admin1', 'hashed_password3', 'salt3', 'admin', TRUE, now()),
-(uuid_generate_v4(), 'admin2', 'hashed_password4', 'salt4', 'admin', TRUE, now());
+(uuid_generate_v4(), 'user1', '$2y$11$EyRl.gK2fw6QV4WG5e8J4u/wNUut7DUwC1ey3qgFYyCTRMPJz7dsi', '', 'user', TRUE, now()),
+(uuid_generate_v4(), 'user2', '$2y$11$EyRl.gK2fw6QV4WG5e8J4u/wNUut7DUwC1ey3qgFYyCTRMPJz7dsi', '', 'user', TRUE, now()),
+(uuid_generate_v4(), 'admin1', '$2y$11$EyRl.gK2fw6QV4WG5e8J4u/wNUut7DUwC1ey3qgFYyCTRMPJz7dsi', '', 'admin', TRUE, now()),
+(uuid_generate_v4(), 'admin2', '$2y$11$EyRl.gK2fw6QV4WG5e8J4u/wNUut7DUwC1ey3qgFYyCTRMPJz7dsi', '', 'admin', TRUE, now());
+
+== password is "password"
 
 -- TODO: hash passwords
 

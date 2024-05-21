@@ -6,6 +6,8 @@ Create database invoice_management.
 Create user invoicer with password invoicer.
 Grant access to invoicer to invoice_management
 
+Run file db.sql in order to set up the database.
+
 ## Running
 
 You will need to run PostgREST in one terminal, Xiana in a second terminal and nginx.
