@@ -1,0 +1,15 @@
+version: "3.3"
+services:
+  db:
+    image: postgres:15-alpine
+    volumes:
+      - db-data:/var/lib/postgresql/data
+    ports:
+      - "5433:5432"
+    environment:
+      - POSTGRES_DB=invoices
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+
+volumes:
+  db-data:

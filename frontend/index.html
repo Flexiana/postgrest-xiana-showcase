@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Invoice Tracking System</title>
+</head>
+<body>
+    <div id="app">
+        <h1>Invoice Tracking System</h1>
+        <div>
+            <h2>Login</h2>
+            <input type="text" id="username" placeholder="Username">
+            <input type="password" id="password" placeholder="Password">
+            <button onclick="login()">Login</button>
+        </div>
+        <div>
+            <h2>Create Invoice</h2>
+            <input type="text" id="invoice-name" placeholder="Invoice Name">
+            <input type="date" id="invoice-date">
+            <input type="number" id="invoice-amount" placeholder="Amount">
+            <input type="text" id="invoice-currency" placeholder="Currency">
+            <textarea id="invoice-bank-details" placeholder="Bank Details"></textarea>
+            <button onclick="createInvoice()">Create Invoice</button>
+        </div>
+        <div>
+            <h2>Invoices</h2>
+            <button onclick="fetchInvoices()">Fetch Invoices</button>
+            <ul id="invoices-list"></ul>
+        </div>
+    </div>
+
+    <script>
+        async function login() {
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+
+            const response = await fetch('/api/login', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ username, password })
+            });
+
+            const data = await response.json();
+            localStorage.setItem('token', data.token);
+        }
+
+        async function createInvoice() {
+            const token = localStorage.getItem('token');
+            const name = document.getElementById('invoice-name').value;
+            const date = document.getElementById('invoice-date').value;
+            const amount = document.getElementById('invoice-amount').value;
+            const currency = document.getElementById('invoice-currency').value;
+            const bankDetails = document.getElementById('invoice-bank-details').value;
+
+            const response = await fetch('/pgr/invoices', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                },
+                body: JSON.stringify({ name, date, amount, currency, bank_details: bankDetails, current_status: 'created' })
+            });
+
+            if (response.ok) {
+                alert('Invoice created successfully');
+            } else {
+                alert('Error creating invoice');
+            }
+        }
+
+        async function fetchInvoices() {
+            const token = localStorage.getItem('token');
+            const response = await fetch('/pgr/invoices', {
+                headers: { 'Authorization': `Bearer ${token}` }
+            });
+
+            const invoices = await response.json();
+            const invoicesList = document.getElementById('invoices-list');
+            invoicesList.innerHTML = '';
+
+            invoices.forEach(invoice => {
+                const li = document.createElement('li');
+                li.textContent = `Name: ${invoice.name}, Date: ${invoice.date}, Amount: ${invoice.amount}, Currency: ${invoice.currency}, Status: ${invoice.current_status}`;
+                invoicesList.appendChild(li);
+            });
+        }
+    </script>
+</body>
+</html>
