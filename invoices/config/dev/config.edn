@@ -9,11 +9,11 @@
                                     :middleware [reitit.swagger/swagger-feature]}}
  :xiana/swagger-ui      {:uri-path "/swagger/swagger-ui"}
  :xiana/postgresql      {:port     5433
-                         :dbname   "invoicemgmt"
+                         :dbname   "postgres"
                          :host     "localhost"
                          :dbtype   "postgresql"
                          :user     "postgres"
-                         :password ""}
+                         :password "curve25519"}
  :xiana/migration       {:store                :database
                          :migration-dir        ["migrations/common"
                                                 "migrations/dev"]

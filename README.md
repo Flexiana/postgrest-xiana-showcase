@@ -3,6 +3,13 @@
 ## Setup
 
 Create database invoice_management.
+
+`docker build -t xiana_showcase -f docker/db.dockerfile .`
+
+`docker run --name xiana_showcase -e POSTGRES_PASSWORD=curve25519 -p 5433:5432 -d xiana_showcase`
+
+`docker start xiana_showcase`
+
 Create user invoicer with password invoicer.
 Grant access to invoicer to invoice_management
 
@@ -14,19 +21,38 @@ You will need to run PostgREST in one terminal, Xiana in a second terminal and n
 
 ## Running Xiana app
 
+go to invoices folder and
+
+`lein run`
+
+It will download the dependencies of the project the first time. Then start the project, the server. It adds migrations table and sessions table. 
+
 ## Running PostgREST
 
 `postgrest postgrest.conf`
 
 ## Running nginx
 
+Is the proxy.
+
 Run nginx:
+
+sudo nginx -c /Users/jacobocordova/Documents/GitHub/postgrest-xiana-showcase/nginx.conf
 
 `sudo nginx -c nginx.conf`
 
 Check nginx is running:
 
 `sudo systemctl status nginx`
+
+To reload some configuration from the nginx.conf file  You can run:
+
+```
+sudo pkill nginx
+sudo nginx -c /Users/jacobocordova/Documents/GitHub/postgrest-xiana-showcase/nginx.conf
+
+```
+
 
 ## JWT tokens and usage
 
