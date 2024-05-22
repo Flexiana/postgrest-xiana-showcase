@@ -10,22 +10,41 @@ Create database invoice_management.
 
 `docker start xiana_showcase`
 
-Create user invoicer with password invoicer.
-Grant access to invoicer to invoice_management
+<!-- Create user invoicer with password invoicer. -->
+<!-- Grant access to invoicer to invoice_management -->
 
-Run file db.sql in order to set up the database.
+<!-- Run file db.sql in order to set up the database. -->
 
 ## Running
 
-You will need to run PostgREST in one terminal, Xiana in a second terminal and nginx.
+You will need to run PostgREST in one terminal, Xiana in a second terminal and nginx in another terminal.
 
 ## Running Xiana app
 
-go to invoices folder and
+### Install leiningen
 
+Download the lein script (or on Windows lein.bat if you don't use WSL)
+Place it on your $PATH where your shell can find it (eg. /usr/local/bin/)
+Set it to be executable (sudo chmod a+x /usr/local/bin/lein)
+Run it (lein) and it will download the self-install package
+
+https://leiningen.org/
+
+`brew install leiningen`
+
+### Run Xiana
+
+go to invoices folder
+
+`cd invoices`
+
+and
+ 
 `lein run`
 
-It will download the dependencies of the project the first time. Then start the project, the server. It adds migrations table and sessions table. 
+It will download the dependencies of the project the first time. Then
+start the project, the server. It adds migrations table and sessions
+table.
 
 ## Running PostgREST
 
@@ -33,7 +52,21 @@ It will download the dependencies of the project the first time. Then start the 
 
 ## Running nginx
 
-Is the proxy.
+### Install Ngninx
+
+For Debian-based Linux
+
+```
+sudo apt install nginx-core
+```
+
+For Mac OS
+
+```
+brew install nginx
+```
+
+Is a web server that can also be used as a reverse proxy.
 
 Run nginx:
 
@@ -50,9 +83,13 @@ To reload some configuration from the nginx.conf file  You can run:
 ```
 sudo pkill nginx
 sudo nginx -c /Users/jacobocordova/Documents/GitHub/postgrest-xiana-showcase/nginx.conf
-
 ```
 
+To check if there is something already running on some port:
+
+```
+sudo netstat -nlp | grep :80
+```
 
 ## JWT tokens and usage
 
