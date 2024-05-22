@@ -1,6 +1,7 @@
 (ns invoices.core
   (:require
     [invoices.controllers.index :as index]
+    [invoices.controllers.login :as login]
     [invoices.controllers.re-frame :as re-frame]
     [xiana.config :as config]
     [xiana.db :as db]
@@ -16,6 +17,7 @@
 
 (def routes
   [["/"               {:get {:action #'index/handle-index}}]
+   ["/login"          {:post {:action #'login/handle-login}}]
    ["/re-frame"       {:no-doc true
                        :action #'re-frame/handle-index}]
    ^:no-doc ["/assets/*"  (ring/create-resource-handler {:path "/"})]])
@@ -47,3 +49,7 @@
 (defn -main
   [& _args]
   (->system app-cfg))
+
+(comment 
+  (-main)
+  #_())
