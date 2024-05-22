@@ -1,0 +1,20 @@
+# Invalid Signature
+POST http://localhost:8000/invoices
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1c2VyMSIsInJvbGUiOiJ1c2VyIiwiaXNzIjoieGlhbmEtYXBpIiwiYXVkIjoiYXBpLWNvbnN1bWVyIiwiZXhwIjoxNzE2MzAwOTQwfQ.bQvG3aHyPdJrtO2E-seHRrsOcgtxkkKjhdqOSwI7m6U
+Content-Type: application/json
+
+{
+  "name": "Invoice for user1",
+  "date": "2023-01-01",
+  "amount": 100,
+  "currency": "USD",
+  "bank_details": "Bank ABC, Account 123",
+  "attached_file": "invoice1.pdf",
+  "user_id": "UUID-OF-USER1",
+  "current_status": "created"
+}
+
+###
+
+GET http://localhost:8000/invoices
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbjEiLCJyb2xlIjoiYWRtaW4iLCJpc3MiOiJ4aWFuYS1hcGkiLCJhdWQiOiJhcGktY29uc3VtZXIiLCJleHAiOjE3MTYzMDA5NDB9.RMTG_lgBfvs2D6GszBPZCLAKjmi6joP9-Hjdt3znSYY
