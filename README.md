@@ -48,6 +48,14 @@ table.
 
 ## Running PostgREST
 
+### Generate secret key
+
+The secret key need to be at leat 32 characters long.
+
+```
+echo "jwt-secret = \"$(LC_ALL=C tr -dc 'A-Za-z0-9' </dev/urandom | head -c32)\"" >> postgrest.conf
+```
+
 `postgrest postgrest.conf`
 
 ## Running nginx
@@ -93,70 +101,37 @@ sudo netstat -nlp | grep :80
 
 ## JWT tokens and usage
 
+We will be using a Ruby script to generate a JWT token.
 
-username user1, role user
-eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1c2VyMSIsInJvbGUiOiJ1c2VyIiwiaXNzIjoieGlhbmEtYXBpIiwiYXVkIjoiYXBpLWNvbnN1bWVyIiwiZXhwIjoxNzE2MzAwOTQwfQ.bQvG3aHyPdJrtO2E-seHRrsOcgtxkkKjhdqOSwI7m6U
+### Installing Ruby
 
-username user2, role user
-eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1c2VyMiIsInJvbGUiOiJ1c2VyIiwiaXNzIjoieGlhbmEtYXBpIiwiYXVkIjoiYXBpLWNvbnN1bWVyIiwiZXhwIjoxNzE2MzAwOTQwfQ.aYZbKJ9T6OLVVKlbKBXwf3sR56xlwEfAQIneH9yverI
+```
+sudo apt-get install ruby-full
+```
 
-username admin1, role admin
-eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbjEiLCJyb2xlIjoiYWRtaW4iLCJpc3MiOiJ4aWFuYS1hcGkiLCJhdWQiOiJhcGktY29uc3VtZXIiLCJleHAiOjE3MTYzMDA5NDB9.RMTG_lgBfvs2D6GszBPZCLAKjmi6joP9-Hjdt3znSYY
+Install `jwt` gem
 
-username admin2, role admin
-eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbjIiLCJyb2xlIjoiYWRtaW4iLCJpc3MiOiJ4aWFuYS1hcGkiLCJhdWQiOiJhcGktY29uc3VtZXIiLCJleHAiOjE3MTYzMDA5NDB9.E-tH6XtqzVyfM506Le_vxzQJfAAh5cxT9OKdBv23ufk
+```
+sudo gem install jwt
+```
+
+Generate JWT token
+
+```
+ruby gen-jwt.rb <user> <role>
+```
+
+For example:
+
+```
+ruby gen-jwt.rb user1 web_user
+```
+
+During development, you can verify your JWT Token here: https://jwt.io/
 
 ## Calling PostgREST
 
 Depends on httpie cli https://httpie.io/cli
 
-Commands
+Run the sample request in `rest.http`
 
-1. Create an Invoice for user1
-
-```sh
-
-http POST http://localhost:3000/invoices \
-Authorization:"Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1c2VyMSIsInJvbGUiOiJ1c2VyIiwiaXNzIjoieGlhbmEtYXBpIiwiYXVkIjoiYXBpLWNvbnN1bWVyIiwiZXhwIjoxNzE2MzAwOTQwfQ.bQvG3aHyPdJrtO2E-seHRrsOcgtxkkKjhdqOSwI7m6U" \
-name="Invoice for user1" date="2023-01-01" amount:=100 currency="USD" bank_details="Bank ABC, Account 123" attached_file="invoice1.pdf" user_id="UUID-OF-USER1" current_status="created"
-```
-
-Replace "UUID-OF-USER1" with the actual UUID of user1 from your users table.
-
-2. Create an Invoice for user2
-
-```sh
-
-http POST http://localhost:3000/invoices \
-Authorization:"Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1c2VyMiIsInJvbGUiOiJ1c2VyIiwiaXNzIjoieGlhbmEtYXBpIiwiYXVkIjoiYXBpLWNvbnN1bWVyIiwiZXhwIjoxNzE2MzAwOTQwfQ.aYZbKJ9T6OLVVKlbKBXwf3sR56xlwEfAQIneH9yverI" \
-name="Invoice for user2" date="2023-01-01" amount:=200 currency="USD" bank_details="Bank XYZ, Account 456" attached_file="invoice2.pdf" user_id="UUID-OF-USER2" current_status="created"
-```
-
-Replace "UUID-OF-USER2" with the actual UUID of user2 from your users table.
-3. Change Status of an Invoice for user1
-
-Assuming you want to change the status of a specific invoice (replace INVOICE-ID with the actual invoice ID):
-
-```sh
-
-http PATCH http://localhost:3000/invoices/INVOICE-ID \
-Authorization:"Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1c2VyMSIsInJvbGUiOiJ1c2VyIiwiaXNzIjoieGlhbmEtYXBpIiwiYXVkIjoiYXBpLWNvbnN1bWVyIiwiZXhwIjoxNzE2MzAwOTQwfQ.bQvG3aHyPdJrtO2E-seHRrsOcgtxkkKjhdqOSwI7m6U" \
-current_status="cancelled"
-```
-
-4. List All Invoices for user1
-
-```sh
-
-http GET http://localhost:3000/invoices \
-Authorization:"Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1c2VyMSIsInJvbGUiOiJ1c2VyIiwiaXNzIjoieGlhbmEtYXBpIiwiYXVkIjoiYXBpLWNvbnN1bWVyIiwiZXhwIjoxNzE2MzAwOTQwfQ.bQvG3aHyPdJrtO2E-seHRrsOcgtxkkKjhdqOSwI7m6U" \
-user_id=="UUID-OF-USER1"
-```
-
-5. List All Invoices as admin1
-
-```sh
-
-http GET http://localhost:3000/invoices \
-Authorization:"Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbjEiLCJyb2xlIjoiYWRtaW4iLCJpc3MiOiJ4aWFuYS1hcGkiLCJhdWQiOiJhcGktY29uc3VtZXIiLCJleHAiOjE3MTYzMDA5NDB9.RMTG_lgBfvs2D6GszBPZCLAKjmi6joP9-Hjdt3znSYY"
-```

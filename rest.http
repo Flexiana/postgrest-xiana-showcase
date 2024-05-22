@@ -1,6 +1,6 @@
-# Invalid Signature
+# Create an invoice as user1 with role web_user
 POST http://localhost:8000/invoices
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1c2VyMSIsInJvbGUiOiJ1c2VyIiwiaXNzIjoieGlhbmEtYXBpIiwiYXVkIjoiYXBpLWNvbnN1bWVyIiwiZXhwIjoxNzE2MzAwOTQwfQ.bQvG3aHyPdJrtO2E-seHRrsOcgtxkkKjhdqOSwI7m6U
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1c2VyMSIsInJvbGUiOiJ3ZWJfdXNlciIsImlzcyI6InhpYW5hLWFwaSIsImF1ZCI6ImFwaS1jb25zdW1lciIsImV4cCI6NTMxNjM4MTM3MH0.LBVc-1g0F1Ft8ulRDM-8H9kZa6XRXpls2rQXBlfLGFw
 Content-Type: application/json
 
 {
@@ -10,11 +10,11 @@ Content-Type: application/json
   "currency": "USD",
   "bank_details": "Bank ABC, Account 123",
   "attached_file": "invoice1.pdf",
-  "user_id": "UUID-OF-USER1",
+  "user_id": "0222f0be-edd6-4825-98ba-57657c242e5d",
   "current_status": "created"
 }
 
-###
+# Get an invoice as user1 with role web_user
 
 GET http://localhost:8000/invoices
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbjEiLCJyb2xlIjoiYWRtaW4iLCJpc3MiOiJ4aWFuYS1hcGkiLCJhdWQiOiJhcGktY29uc3VtZXIiLCJleHAiOjE3MTYzMDA5NDB9.RMTG_lgBfvs2D6GszBPZCLAKjmi6joP9-Hjdt3znSYY
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1c2VyMSIsInJvbGUiOiJ3ZWJfdXNlciIsImlzcyI6InhpYW5hLWFwaSIsImF1ZCI6ImFwaS1jb25zdW1lciIsImV4cCI6NTMxNjM4MTM3MH0.LBVc-1g0F1Ft8ulRDM-8H9kZa6XRXpls2rQXBlfLGFw
