@@ -70,7 +70,7 @@ Is a web server that can also be used as a reverse proxy.
 
 Run nginx:
 
-sudo nginx -c /Users/jacobocordova/Documents/GitHub/postgrest-xiana-showcase/nginx.conf
+sudo nginx -c /path-to-your-repo/postgrest-xiana-showcase/nginx.conf
 
 `sudo nginx -c nginx.conf`
 
