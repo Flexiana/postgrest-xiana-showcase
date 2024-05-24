@@ -4,7 +4,7 @@
                 [clojure.java.shell :refer [sh]]))
 
 (defn call-ruby-script [username role]
-  (let [result (sh "ruby" "/Users/jacobocordova/Documents/GitHub/postgrest-xiana-showcase/gen-jwt.rb" username role)]
+  (let [result (sh "ruby" "../gen-jwt.rb" username role)]
     (println (:out result))
     (:out result)))
 
