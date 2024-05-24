@@ -8,7 +8,7 @@ payload = {
   exp: (Time.now + 3600000000).to_i  # Token expiration time (1M hour from now)
 }
 
-secret = 'your-secret-key'  # Replace with your secret key
+secret = 'xytR2xTLKPZed0rNreboFCBkRjN4ofTV'  # Replace with your secret key
 
 token = JWT.encode(payload, secret, 'HS256')
 puts token
