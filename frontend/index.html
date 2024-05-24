@@ -41,7 +41,10 @@
             });
 
             const data = await response.json();
-            localStorage.setItem('token', data.token);
+            const authToken = data['auth-token'];
+            
+            console.log(authToken);
+            localStorage.setItem('token', authToken);
         }
 
         async function createInvoice() {
@@ -75,6 +78,7 @@
             });
 
             const invoices = await response.json();
+            console.log(invoices);
             const invoicesList = document.getElementById('invoices-list');
             invoicesList.innerHTML = '';
 

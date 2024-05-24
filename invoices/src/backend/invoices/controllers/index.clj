@@ -3,6 +3,7 @@
 
 (defn handle-index
   [state]
-  (assoc state
-    :response
-    (ring/response "Index page")))
+  (let [html-content (slurp "../frontend/index.html")]
+   (assoc state
+          :response
+          (ring/response html-content))))
